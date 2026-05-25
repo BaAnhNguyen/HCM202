@@ -41,7 +41,7 @@ const crimsonText = Crimson_Text({
 });
 
 export const metadata: Metadata = {
-  title: "Triết Học Mác-Lênin",
+  title: "Tư tưởng Hồ Chí Minh",
   description:
     "Khám phá những dấu mốc quan trọng trong quá trình hình thành tư tưởng Hồ Chí Minh",
   keywords:
@@ -52,10 +52,10 @@ export const metadata: Metadata = {
     // shortcut: "/logo.png",
     // apple: "/logo.png",
   },
-  creator: "Triết Học Mác-Lênin",
-  publisher: "Triết Học Mác-Lênin",
+  creator: "Tư tưởng Hồ Chí Minh",
+  publisher: "Tư tưởng Hồ Chí Minh",
   openGraph: {
-    title: "Triết Học Mác-Lênin",
+    title: "Tư tưởng Hồ Chí Minh",
     description:
       "Khám phá những dấu mốc quan trọng trong quá trình hình thành tư tưởng Hồ Chí Minh",
     url: "https://dauchanlichsu.aizy.vn",
@@ -70,11 +70,11 @@ export const metadata: Metadata = {
     ],
     type: "website",
     locale: "vi_VN",
-    siteName: "Triết Học Mác-Lênin",
+    siteName: "Tư tưởng Hồ Chí Minh",
   },
   twitter: {
     card: "summary_large_image",
-    title: "DTriết Học Mác-Lênin",
+    title: "Tư tưởng Hồ Chí Minh",
     description:
       "Khám phá những dấu mốc quan trọng trong quá trình hình thành tư tưởng Hồ Chí Minh",
   },

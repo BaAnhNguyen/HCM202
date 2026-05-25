@@ -101,7 +101,7 @@ export default function ConclusionPage() {
           </div>
 
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-black text-yellow-100 italic leading-tight font-crimson-pro mb-8 drop-shadow-[0_10px_10px_rgba(0,0,0,0.5)]">
-            "Cảm ơn thầy và các bạn đã lắng nghe"
+            "Cảm ơn cô và các bạn đã lắng nghe"
           </h1>
           <div className="flex items-center justify-center gap-4">
             <div className="h-[2px] w-12 bg-red-600"></div>

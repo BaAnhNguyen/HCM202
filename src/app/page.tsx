@@ -271,44 +271,48 @@ export default function HoChiMinhTimeline() {
           </div>
         </div>
 
-        <div className="max-w-6xl mx-auto relative z-20">
-          <div className="hero-content mb-12">
-            <h1 className="hero-title text-7xl md:text-9xl lg:text-[10rem] font-black mb-8 text-balance leading-[0.85] tracking-tight font-crimson-pro">
-              <div className="title-line">
-                <span className="text-red-600 drop-shadow-2xl text-center inline-block font-bold">
-                  TRIẾT HỌC
-                </span>
-              </div>
-              <div className="title-line mt-4">
-                <span className="text-yellow-400 drop-shadow-2xl inline-block font-bold uppercase">
-                  Hồ Chí Minh
-                </span>
-              </div>
-            </h1>
-          </div>
+        <div className="max-w-6xl mx-auto relative z-20 px-4 sm:px-6">
+          <div className="hero-content relative overflow-hidden rounded-[2rem] border border-white/10 bg-slate-950/20 px-6 py-10 shadow-[0_25px_80px_rgba(0,0,0,0.35)] backdrop-blur-md md:px-12 md:py-14">
+            <div className="absolute inset-x-0 top-0 h-px bg-white/10" />
+            <div className="absolute inset-x-0 bottom-0 h-px bg-red-500/20" />
 
-          <div className="max-w-4xl mx-auto">
-            <p className="hero-quote text-2xl md:text-3xl text-yellow-200 mb-6 text-pretty font-crimson leading-relaxed italic drop-shadow-lg font-normal">
-              "Ngọn đuốc soi đường cho sự nghiệp cách mạng"
-            </p>
-            <div className="flex items-center justify-center gap-4 mt-6">
-              <Link
-                href="/team"
-                aria-label="Xem Thông tin nhóm"
-                className="inline-flex items-center gap-3 px-6 py-3 bg-white text-red-700 border border-red-100 rounded-full font-semibold shadow-sm hover:shadow-md transition-transform transform hover:-translate-y-0.5"
-              >
-                <Users className="w-4 h-4" />
-                <span>Xem Thông tin nhóm</span>
-              </Link>
+            <div className="mx-auto flex max-w-4xl flex-col items-center text-center">
+              <div className="inline-flex items-center gap-2 rounded-full border border-yellow-300/20 bg-yellow-100/10 px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.35em] text-yellow-100">
+                Tư tưởng Hồ Chí Minh
+              </div>
 
-              <Link
-                href="/technologies"
-                aria-label="Xem Công nghệ"
-                className="inline-flex items-center gap-3 px-6 py-3 bg-white/5 text-white border border-white/10 rounded-full font-semibold backdrop-blur-sm shadow-sm hover:shadow-md transition-transform transform hover:-translate-y-0.5"
-              >
-                <Code2 className="w-4 h-4" />
-                <span>Xem Công nghệ</span>
-              </Link>
+              <h1 className="hero-title mt-8 text-balance font-crimson-pro font-black leading-[0.92] tracking-tight text-white">
+                <span className="block text-5xl md:text-7xl lg:text-8xl text-red-500 drop-shadow-2xl">
+                  TƯ TƯỞNG HỒ CHÍ MINH
+                </span>
+                <span className="mt-4 block text-sm uppercase tracking-[0.22em] text-yellow-300 md:text-2xl lg:text-3xl">
+                  Đại đoàn kết dân tộc và đại đoàn kết quốc tế
+                </span>
+              </h1>
+
+              <p className="hero-quote mt-8 max-w-2xl text-pretty font-crimson text-xl font-normal leading-relaxed italic text-yellow-100/90 drop-shadow-lg md:text-2xl">
+                "Ngọn đuốc soi đường cho sự nghiệp cách mạng"
+              </p>
+
+              <div className="mt-10 flex w-full flex-col items-stretch justify-center gap-3 sm:w-auto sm:flex-row sm:items-center">
+                <Link
+                  href="/team"
+                  aria-label="Xem Thông tin nhóm"
+                  className="inline-flex items-center justify-center gap-3 rounded-full border border-red-200 bg-white px-6 py-3 font-semibold text-red-700 shadow-sm transition-transform hover:-translate-y-0.5 hover:shadow-md"
+                >
+                  <Users className="h-4 w-4" />
+                  <span>Xem Thông tin nhóm</span>
+                </Link>
+
+                <Link
+                  href="/technologies"
+                  aria-label="Xem Công nghệ"
+                  className="inline-flex items-center justify-center gap-3 rounded-full border border-white/15 bg-white/5 px-6 py-3 font-semibold text-white shadow-sm backdrop-blur-sm transition-transform hover:-translate-y-0.5 hover:shadow-md"
+                >
+                  <Code2 className="h-4 w-4" />
+                  <span>Xem Công nghệ</span>
+                </Link>
+              </div>
             </div>
           </div>
         </div>

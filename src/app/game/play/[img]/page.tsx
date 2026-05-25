@@ -17,7 +17,7 @@ interface PuzzlePiece {
 // Description cho từng hình
 const imageDescriptions: Record<string, string> = {
   "header_hcm_daidoanket.jpg":
-    "Đây là hình ảnh đại diện cho Triết học Mác-Lênin, thể hiện tư tưởng chủ đạo của dự án.",
+    "Đây là hình ảnh đại diện cho Tư tưởng Hồ Chí Minh, thể hiện tư tưởng chủ đạo của dự án.",
   "body.png": "Đây là hình ảnh phần body, nơi chứa nội dung chính của trang.",
   "hinh2.png":
     "Đây là hình minh họa số 2, dùng để trang trí hoặc làm ví dụ cho game.",
