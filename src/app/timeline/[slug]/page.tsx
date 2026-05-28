@@ -77,12 +77,6 @@ const timelineData: TimelineEvent[] = [
         ),
       },
       {
-        type: "image",
-        src: "/image/social-relations.png",
-        alt: "Truyền thống đoàn kết dân tộc Việt Nam",
-        caption: "Truyền thống yêu nước, nhân nghĩa, đoàn kết — nền tảng tinh thần ngàn năm của dân tộc Việt Nam",
-      },
-      {
         type: "paragraph",
         content: (
           <>
@@ -98,6 +92,12 @@ const timelineData: TimelineEvent[] = [
         content:
           "Năm ngón tay cũng có ngón vắn ngón dài. Nhưng vắn dài đều họp nhau lại nơi bàn tay... Ta phải lấy tình thân ái mà cảm hóa họ. Có như thế mới thành đại đoàn kết.",
         author: "Hồ Chí Minh",
+      },
+      {
+        type: "image",
+        src: "/image/Muc1-2.jpg",
+        alt: "Điều kiện xây dựng khối đại đoàn kết toàn dân tộc",
+        caption: "Bốn điều kiện cốt lõi — nền tảng để biến đại đoàn kết từ mục tiêu thành sức mạnh thực sự",
       },
       {
         type: "paragraph",
@@ -125,9 +125,8 @@ const timelineData: TimelineEvent[] = [
       },
     ],
     images: [
-      "/image/social-relations.png",
-      "/image/labor-evolution.png",
-      "/image/human-vs-animal.png",
+      "/image/Muc1.jpg",
+      "/image/Muc1-2.jpg"
     ],
   },
   {
@@ -160,9 +159,7 @@ const timelineData: TimelineEvent[] = [
       },
       {
         type: "image",
-        src: "/image/labor-evolution.png",
-        alt: "Mặt trận dân tộc thống nhất qua các thời kỳ",
-        caption: "Mặt trận dân tộc thống nhất — từ Việt Minh đến Mặt trận Tổ quốc, hình thức thay đổi nhưng mục tiêu nhất quán",
+        src: "/image/Muc2-2.jpg"
       },
       {
         type: "paragraph",
@@ -219,9 +216,8 @@ const timelineData: TimelineEvent[] = [
       },
     ],
     images: [
-      "/image/labor-evolution.png",
-      "/image/social-relations.png",
-      "/image/hcm-portrait.jpg",
+      "/image/Muc2-1.jpg",
+      "/image/Muc2-2.jpg"
     ],
   },
   {
@@ -256,7 +252,7 @@ const timelineData: TimelineEvent[] = [
       },
       {
         type: "image",
-        src: "/image/human-vs-animal.png",
+        src: "/image/Muc3-2.jpg",
         alt: "Công tác dân vận, vận động quần chúng",
         caption: "Dân vận — sợi dây kết nối Đảng với nhân dân, nền tảng xây dựng khối đại đoàn kết",
       },
@@ -290,7 +286,7 @@ const timelineData: TimelineEvent[] = [
       },
       {
         type: "image",
-        src: "/image/hcm-danvan.jpg",
+        src: "/image/Muc3-1.jpg",
         alt: "Khối đoàn kết toàn dân tộc vững mạnh",
         caption: "Dân vận — Hồ Chí Minh luôn gần gũi nhân dân, xây dựng khối đại đoàn kết từ trái tim người lãnh tụ",
       },
@@ -308,9 +304,9 @@ const timelineData: TimelineEvent[] = [
       },
     ],
     images: [
-      "/image/human-vs-animal.png",
-      "/image/hcm-danvan.jpg",
-      "/image/social-relations.png",
+      "/image/Muc3-3.jpg",
+      "/image/Muc3-2.jpg",
+      "/image/Muc3-1.jpg",
     ],
   },
 ];
@@ -450,7 +446,7 @@ export default function TimelineDetail() {
                     <img
                       src={item.src}
                       alt={item.alt}
-                      className="w-full h-80 object-cover"
+                      className="w-full object-contain"
                     />
                     {item.caption && (
                       <p className="text-center text-sm text-slate-500 italic mt-3 px-4 pb-3">

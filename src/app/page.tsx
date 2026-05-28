@@ -330,7 +330,7 @@ export default function HoChiMinhTimeline() {
       {/* Timeline Section */}
       <section
         className="timeline-container relative py-16 md:py-24 px-4 bg-center bg-contain"
-        style={{ backgroundImage: "url('/image/body.png')" }}
+        style={{ backgroundImage: "url('/image/body2.jpg')" }}
       >
         <div className="absolute inset-0 bg-black/60 md:bg-black/50"></div>
         <div className="max-w-7xl mx-auto relative z-10">
