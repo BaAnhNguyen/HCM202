@@ -6,7 +6,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
-import { Users, Code2 } from "lucide-react";
+import { Users, Code2 , QrCode, Gamepad2} from "lucide-react";
 import ModelWithChat from "@/components/model3D/ModelWithChat";
 
 // Register GSAP plugins
@@ -450,32 +450,51 @@ export default function HoChiMinhTimeline() {
       {/* 3D Model với Chat tích hợp - chỉ hiện sau animation */}
       {animationComplete && <ModelWithChat />}
 
-      {/* Floating Game Button - chỉ hiện sau animation */}
-      {animationComplete && (
-        <Link href="/game" className="fixed bottom-8 left-8 z-50">
-          <div className="bg-red-600 hover:bg-red-700 text-white p-2 rounded-full shadow-2xl hover:shadow-red-500/50 transition-all duration-300 transform hover:scale-110 cursor-pointer group animate-fade-in">
-            <div className="flex items-center justify-center w-12 h-12">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={2}
-                stroke="currentColor"
-                className="w-8 h-8 group-hover:rotate-12 transition-transform duration-300"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M14.25 6.087c0-.355.186-.676.401-.959.221-.29.349-.634.349-1.003 0-1.036-1.007-1.875-2.25-1.875s-2.25.84-2.25 1.875c0 .369.128.713.349 1.003.215.283.401.604.401.959v0a.64.64 0 01-.657.643 48.39 48.39 0 01-4.163-.3c.186 1.613.293 3.25.315 4.907a.656.656 0 01-.658.663v0c-.355 0-.676-.186-.959-.401a1.647 1.647 0 00-1.003-.349c-1.036 0-1.875 1.007-1.875 2.25s.84 2.25 1.875 2.25c.369 0 .713-.128 1.003-.349.283-.215.604-.401.959-.401v0c.31 0 .555.26.532.57a48.039 48.039 0 01-.642 5.056c1.518.19 3.058.309 4.616.354a.64.64 0 00.657-.643v0c0-.355-.186-.676-.401-.959a1.647 1.647 0 01-.349-1.003c0-1.035 1.008-1.875 2.25-1.875 1.243 0 2.25.84 2.25 1.875 0 .369-.128.713-.349 1.003-.215.283-.4.604-.4.959v0c0 .333.277.599.61.58a48.1 48.1 0 005.427-.63 48.05 48.05 0 00.582-4.717.532.532 0 00-.533-.57v0c-.355 0-.676.186-.959.401-.29.221-.634.349-1.003.349-1.035 0-1.875-1.007-1.875-2.25s.84-2.25 1.875-2.25c.37 0 .713.128 1.003.349.283.215.604.401.96.401v0a.656.656 0 00.658-.663 48.422 48.422 0 00-.37-5.36c-1.886.342-3.81.574-5.766.689a.578.578 0 01-.61-.58v0z"
-                />
-              </svg>
-            </div>
-            <div className="absolute -top-12 left-0 bg-gray-800 text-white text-sm px-3 py-1 rounded-lg whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
-              Chơi game
+      {/* Game Section (QR Code) - Thay thế cho thư mục game cũ */}
+      <section id="game-section" className="py-24 px-4 bg-white relative">
+        <div className="max-w-4xl mx-auto flex flex-col items-center justify-center text-center">
+          <h2 className="text-4xl md:text-5xl font-bold text-red-700 mb-6 font-crimson-pro italic drop-shadow-sm">
+            Trải nghiệm Trò chơi
+          </h2>
+          <p className="text-lg text-gray-700 mb-8 max-w-2xl font-inter">
+            Quét mã QR bên dưới để tham gia vào trò chơi tương tác tìm hiểu về Tư tưởng Hồ Chí Minh.
+          </p>
+          
+          <div className="bg-white p-6 rounded-3xl shadow-[0_10px_40px_-10px_rgba(0,0,0,0.1)] border border-red-50 transform hover:-translate-y-2 transition-transform duration-300">
+            {/* Ảnh QR */}
+            <div className="relative group">
+              <img 
+                src="/image/Game-or.png" 
+                alt="QR Code Game" 
+                className="w-64 h-64 object-contain rounded-xl"
+                onError={(e) => {
+                  e.currentTarget.style.display = 'none';
+                  e.currentTarget.nextElementSibling?.classList.remove('hidden');
+                }}
+              />
+              <div className="hidden w-64 h-64 bg-gray-50 border-2 border-dashed border-gray-300 rounded-xl flex flex-col items-center justify-center text-gray-500">
+                <QrCode className="w-12 h-12 mb-3 text-gray-400" />
+                <span className="font-medium">Chưa có mã QR</span>
+                <span className="text-xs mt-1 px-4 text-center">Thêm ảnh vào public/image/qr-game.png</span>
+              </div>
+              
+              {/* Overlay on hover */}
+              <div className="absolute inset-0 bg-red-900/10 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center pointer-events-none">
+              </div>
             </div>
           </div>
-        </Link>
-      )}
+          
+          <a
+            href="https://game-black-gamma.vercel.app/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-10 inline-flex items-center gap-2 text-red-700 font-medium bg-red-50 hover:bg-red-100 border border-red-100 py-3 px-8 rounded-full transition-colors duration-300"
+          >
+            <Gamepad2 className="w-6 h-6" />
+            <span className="text-lg">Tham gia ngay!</span>
+          </a>
+        </div>
+      </section>
     </div>
   );
 }
