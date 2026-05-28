@@ -19,7 +19,7 @@ export default function SlidesPage() {
         </Link>
 
         <a
-          href="/slides/presentation.pdf"
+          href="/slide/thuyettrinh.pdf"
           download
           className="inline-flex items-center gap-2 text-sm font-semibold px-4 py-2 rounded-full bg-red-700 hover:bg-red-600 active:scale-95 text-white shadow-lg shadow-red-900/40 transition-all duration-200"
         >
