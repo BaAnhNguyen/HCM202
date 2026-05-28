@@ -37,14 +37,14 @@ export default function HoChiMinhTimeline() {
     document.head.appendChild(style);
 
     // Chặn scroll trong quá trình load
-    document.body.style.overflow = "hidden";
+    // document.body.style.overflow = "hidden";
 
     const ctx = gsap.context(() => {
       // Tạo timeline master cho hero section
       const heroTl = gsap.timeline({
         onComplete: () => {
           // Cho phép scroll lại sau khi animation hoàn thành
-          document.body.style.overflow = "auto";
+          // document.body.style.overflow = "auto";
           // Đánh dấu animation đã hoàn thành
           setAnimationComplete(true);
         },

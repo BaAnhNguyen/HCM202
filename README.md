@@ -16,6 +16,22 @@ bun dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
+## Gemini Chat Setup
+
+To enable the chat model, add your Gemini API key:
+
+1. Create `.env.local` from `.env.example`.
+2. Set `GEMINI_API_KEY` with your key from Google AI Studio.
+3. (Optional) set `GEMINI_MODEL` if you want another Gemini model.
+4. Restart the dev server after changing env variables.
+
+Example:
+
+```bash
+GEMINI_API_KEY=your_real_key
+GEMINI_MODEL=gemini-1.5-flash
+```
+
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.

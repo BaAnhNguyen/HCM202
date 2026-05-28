@@ -1,9 +1,9 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { X, Send, MessageCircle, Plus, History, Trash2 } from "lucide-react";
+import Image from "next/image";
+import { X, Send } from "lucide-react";
 import { createChatSession } from "@/services/chat.api";
-import { refreshTokenIfNeeded, isAuthenticated } from "@/services/token.api";
 import { ChatSession } from "@/types/chat.type";
 
 interface Message {
@@ -41,18 +41,9 @@ export default function Chatbox({ isOpen, onClose }: ChatboxProps) {
     setChatState("connecting");
 
     try {
-      await refreshTokenIfNeeded();
-
-      // Auto create session after successful authentication
+      // Create a fresh local session id for this chat instance.
       const newSessionId = generateSessionId();
       setSessionId(newSessionId);
-
-      const chatSession: ChatSession = {
-        sessionId: newSessionId,
-        chatInput: "",
-      };
-
-      await createChatSession(chatSession);
 
       // Add welcome message
       const welcomeMessage: Message = {
@@ -102,28 +93,33 @@ export default function Chatbox({ isOpen, onClose }: ChatboxProps) {
     let retryCount = 0;
     const maxRetries = 1;
     let errorText = "";
+    let aiReply = "";
     while (retryCount <= maxRetries) {
       try {
-        await createChatSession(chatSession); // chỉ phát audio, không lấy text
+        aiReply = await createChatSession(chatSession);
         errorText = "";
         break;
-      } catch (error: any) {
-        // Nếu lỗi do token expired, thử refresh và retry
-        if (
-          error?.response?.data?.valid === "false" &&
-          typeof error?.response?.data?.reason === "string" &&
-          error.response.data.reason.includes("Token expired")
-        ) {
-          await refreshTokenIfNeeded(true);
-          retryCount++;
-          continue;
-        }
-        errorText = "Đã xảy ra lỗi khi gửi câu hỏi. Vui lòng thử lại.";
+      } catch (error) {
+        retryCount++;
+        if (retryCount <= maxRetries) continue;
+
+        errorText =
+          error instanceof Error
+            ? error.message
+            : "Đã xảy ra lỗi khi gửi câu hỏi. Vui lòng thử lại.";
         break;
       }
     }
 
-    if (errorText) {
+    if (aiReply) {
+      const aiResponse: Message = {
+        id: (Date.now() + 1).toString(),
+        text: aiReply,
+        isUser: false,
+        timestamp: new Date(),
+      };
+      setMessages((prev) => [...prev, aiResponse]);
+    } else if (errorText) {
       const aiResponse: Message = {
         id: (Date.now() + 1).toString(),
         text: errorText,
@@ -147,16 +143,22 @@ export default function Chatbox({ isOpen, onClose }: ChatboxProps) {
 
       {/* Chatbox */}
       <div
-        className="fixed bottom-6 right-52 w-80 h-96 bg-white border border-red-200 rounded-2xl shadow-2xl z-40 flex flex-col overflow-hidden
+        className="fixed bottom-6 right-52 w-80 h-96 bg-white border border-pink-200 rounded-2xl shadow-2xl z-40 flex flex-col overflow-hidden
                       max-sm:right-4 max-sm:w-72 max-sm:h-80 max-sm:bottom-4
                       max-md:right-48 max-md:w-76
                       animate-in slide-in-from-bottom-4 duration-300"
       >
         {/* Header */}
-        <div className="bg-gradient-to-r from-red-600 to-red-700 text-white p-4 flex items-center justify-between rounded-t-2xl">
+        <div className="bg-gradient-to-r from-pink-500 to-rose-400 text-white p-4 flex items-center justify-between rounded-t-2xl">
           <div className="flex items-center space-x-2">
-            <MessageCircle size={20} />
-            <h3 className="font-semibold text-sm">Trò chuyện với AI</h3>
+            <Image
+              src="/image/cute-assistant.svg"
+              alt="Trợ lý dễ thương"
+              width={24}
+              height={24}
+              className="rounded-full ring-2 ring-white/60"
+            />
+            <h3 className="font-semibold text-sm">Trợ lý dễ thương</h3>
           </div>
           <div className="flex items-center space-x-1">
             {/* Status indicator */}
@@ -168,13 +170,13 @@ export default function Chatbox({ isOpen, onClose }: ChatboxProps) {
                 <div className="w-2 h-2 bg-green-400 rounded-full"></div>
               )}
               {chatState === "error" && (
-                <div className="w-2 h-2 bg-red-400 rounded-full"></div>
+                <div className="w-2 h-2 bg-rose-100 rounded-full"></div>
               )}
             </div>
 
             <button
               onClick={onClose}
-              className="hover:bg-red-800 rounded-full p-1 transition-colors"
+              className="hover:bg-pink-600 rounded-full p-1 transition-colors"
             >
               <X size={18} />
             </button>
@@ -182,13 +184,19 @@ export default function Chatbox({ isOpen, onClose }: ChatboxProps) {
         </div>
 
         {/* Messages Area */}
-        <div className="flex-1 overflow-y-auto p-4 bg-gradient-to-b from-red-50 to-white">
+        <div className="flex-1 overflow-y-auto p-4 bg-gradient-to-b from-pink-50 via-rose-50/50 to-white">
           {chatState === "welcome" && (
             <div className="flex flex-col items-center justify-center h-full text-center space-y-4">
-              <MessageCircle size={48} className="text-red-400" />
+              <Image
+                src="/image/cute-assistant.svg"
+                alt="Trợ lý dễ thương"
+                width={56}
+                height={56}
+                className="rounded-full shadow-md ring-4 ring-pink-100"
+              />
               <div className="space-y-2">
                 <h3 className="font-semibold text-gray-800">
-                  Chào mừng đến với AI Assistant
+                  Chào bạn, mình là Trợ lý dễ thương
                 </h3>
                 <p className="text-sm text-gray-600 max-w-xs">
                   Tôi có thể giúp bạn tìm hiểu về cuộc đời và sự nghiệp của Chủ
@@ -199,7 +207,7 @@ export default function Chatbox({ isOpen, onClose }: ChatboxProps) {
                 <button
                   onClick={initializeChat}
                   disabled={isAuthenticating}
-                  className="w-full bg-red-600 hover:bg-red-700 disabled:bg-red-300 text-white px-4 py-2 rounded-lg transition-colors text-sm font-medium"
+                  className="w-full bg-pink-500 hover:bg-pink-600 disabled:bg-pink-300 text-white px-4 py-2 rounded-lg transition-colors text-sm font-medium"
                 >
                   {isAuthenticating ? "Đang kết nối..." : "Bắt đầu chat"}
                 </button>
@@ -209,7 +217,7 @@ export default function Chatbox({ isOpen, onClose }: ChatboxProps) {
 
           {chatState === "connecting" && (
             <div className="flex flex-col items-center justify-center h-full text-center space-y-4">
-              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-red-600"></div>
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-pink-500"></div>
               <p className="text-sm text-gray-600">
                 Đang kết nối với server...
               </p>
@@ -218,8 +226,8 @@ export default function Chatbox({ isOpen, onClose }: ChatboxProps) {
 
           {chatState === "error" && (
             <div className="flex flex-col items-center justify-center h-full text-center space-y-4">
-              <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center">
-                <X size={20} className="text-red-500" />
+              <div className="w-12 h-12 bg-rose-100 rounded-full flex items-center justify-center">
+                <X size={20} className="text-rose-500" />
               </div>
               <div className="space-y-2">
                 <h3 className="font-semibold text-gray-800">Có lỗi xảy ra</h3>
@@ -246,10 +254,10 @@ export default function Chatbox({ isOpen, onClose }: ChatboxProps) {
                   }`}
                 >
                   <div
-                    className={`max-w-[75%] p-3 rounded-2xl text-sm leading-relaxed ${
+                    className={`max-w-[75%] p-3 rounded-2xl text-sm leading-relaxed whitespace-pre-line ${
                       message.isUser
-                        ? "bg-red-600 text-white rounded-br-md"
-                        : "bg-white border border-red-100 text-gray-800 rounded-bl-md shadow-sm"
+                        ? "bg-pink-500 text-white rounded-br-md"
+                        : "bg-white border border-pink-100 text-gray-800 rounded-bl-md shadow-sm"
                     }`}
                   >
                     {message.text}
@@ -259,15 +267,15 @@ export default function Chatbox({ isOpen, onClose }: ChatboxProps) {
 
               {isTyping && (
                 <div className="flex justify-start">
-                  <div className="bg-white border border-red-100 p-3 rounded-2xl rounded-bl-md shadow-sm">
+                  <div className="bg-white border border-pink-100 p-3 rounded-2xl rounded-bl-md shadow-sm">
                     <div className="flex space-x-1">
-                      <div className="w-2 h-2 bg-red-400 rounded-full animate-bounce"></div>
+                      <div className="w-2 h-2 bg-pink-400 rounded-full animate-bounce"></div>
                       <div
-                        className="w-2 h-2 bg-red-400 rounded-full animate-bounce"
+                        className="w-2 h-2 bg-pink-400 rounded-full animate-bounce"
                         style={{ animationDelay: "0.1s" }}
                       ></div>
                       <div
-                        className="w-2 h-2 bg-red-400 rounded-full animate-bounce"
+                        className="w-2 h-2 bg-pink-400 rounded-full animate-bounce"
                         style={{ animationDelay: "0.2s" }}
                       ></div>
                     </div>
@@ -283,22 +291,22 @@ export default function Chatbox({ isOpen, onClose }: ChatboxProps) {
         {chatState === "ready" && sessionId && (
           <form
             onSubmit={handleSubmit}
-            className="p-4 bg-white border-t border-red-100"
+            className="p-4 bg-white border-t border-pink-100"
           >
             <div className="flex space-x-2">
               <input
                 type="text"
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
-                placeholder="Hỏi về Bác Hồ..."
-                className="flex-1 px-3 py-2 border border-red-200 rounded-full focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent text-sm"
+                placeholder="Nhắn mình về Bác Hồ nha..."
+                className="flex-1 px-3 py-2 border border-pink-200 rounded-full focus:outline-none focus:ring-2 focus:ring-pink-400 focus:border-transparent text-sm"
                 disabled={isTyping}
                 autoFocus
               />
               <button
                 type="submit"
                 disabled={!inputValue.trim() || isTyping}
-                className="bg-red-600 hover:bg-red-700 disabled:bg-red-300 text-white p-2 rounded-full transition-colors flex items-center justify-center min-w-[36px]"
+                className="bg-pink-500 hover:bg-pink-600 disabled:bg-pink-300 text-white p-2 rounded-full transition-colors flex items-center justify-center min-w-[36px]"
               >
                 <Send size={16} />
               </button>

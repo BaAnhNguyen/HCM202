@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import SimpleChat from "@/components/chatbox/simple-chat";
+import Chatbox from "@/components/chatbox/chatbox";
 
 interface ModelWithChatProps {
   className?: string;
@@ -16,7 +16,7 @@ export default function ModelWithChat({
   modelClassName = "rounded-2xl",
   position = "bottom-right",
   showTooltip = true,
-  tooltipText = "Trò chuyện với AI ",
+  tooltipText = "Trợ lý dễ thương",
 }: ModelWithChatProps) {
   const [isChatboxOpen, setIsChatboxOpen] = useState(false);
   const [isWaving, setIsWaving] = useState(false);
@@ -77,15 +77,15 @@ export default function ModelWithChat({
 
           {/* Tooltip */}
           {showTooltip && (
-            <div className="absolute top-4 -left-36 bg-gray-800 text-white text-sm px-3 py-1 rounded-lg whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none z-40">
+            <div className="absolute top-4 -left-36 bg-pink-500 text-white text-sm px-3 py-1 rounded-lg whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none z-40 shadow-lg shadow-pink-300/40">
               {tooltipText}
             </div>
           )}
         </div>
       </div>
 
-      {/* Simple Chat */}
-      <SimpleChat isOpen={isChatboxOpen} onClose={handleChatboxClose} />
+      {/* AI Chat */}
+      <Chatbox isOpen={isChatboxOpen} onClose={handleChatboxClose} />
 
       {/* Animation Styles */}
       <style jsx>{`
