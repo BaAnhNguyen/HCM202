@@ -8,7 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
 import { Users, Code2 , QrCode, Gamepad2} from "lucide-react";
 import ModelWithChat from "@/components/model3D/ModelWithChat";
-
+import { Presentation } from "lucide-react";
 // Register GSAP plugins
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
@@ -311,6 +311,15 @@ export default function HoChiMinhTimeline() {
                 >
                   <Code2 className="h-4 w-4" />
                   <span>Xem Công nghệ</span>
+                </Link>
+                
+                <Link
+                  href="/slide"
+                  aria-label="Slide thuyết trình"
+                  className="inline-flex items-center justify-center gap-2.5 rounded-full border border-yellow-400/40 bg-yellow-400/10 px-6 py-3 font-semibold text-yellow-300 shadow-sm backdrop-blur-sm transition-all duration-200 hover:-translate-y-0.5 hover:bg-yellow-400/20 hover:border-yellow-400/60 hover:shadow-yellow-500/20 hover:shadow-md active:scale-95"
+                >
+                  <Presentation className="h-4 w-4" />
+                  <span>Slide thuyết trình</span>
                 </Link>
               </div>
             </div>
