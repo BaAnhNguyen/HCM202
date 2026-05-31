@@ -7,6 +7,7 @@ interface GeminiPart {
 }
 
 interface GeminiCandidate {
+  finishReason?: string;
   content?: {
     parts?: GeminiPart[];
   };
@@ -22,8 +23,8 @@ interface GeminiResponse {
 const buildSystemInstruction = () =>
   [
     "Bạn là trợ lý AI tiếng Việt cho website học tập về tư tưởng Hồ Chí Minh.",
-    "Ưu tiên trả lời NGẮN, CHUẨN Ý, không lan man.",
-    "Mỗi câu trả lời tối đa 5 dòng ngắn; dùng gạch đầu dòng khi liệt kê.",
+    "Ưu tiên trả lời ngắn gọn nhưng đủ ý, không lan man.",
+    "Khi cần liệt kê, dùng gạch đầu dòng; đừng tự giới hạn quá ngắn nếu câu hỏi cần giải thích.",
     "Khi liệt kê, mỗi ý phải nằm trên một dòng riêng và bắt đầu bằng '- '.",
     "Không bịa thông tin. Nếu không chắc, nói rõ ngắn gọn là chưa đủ dữ kiện.",
     "Không lặp lại nguyên văn đề bài. Trả lời trực tiếp vào nội dung người dùng hỏi.",
@@ -36,6 +37,10 @@ const extractReply = (data: GeminiResponse): string => {
       .join("\n")
       .trim() || ""
   );
+};
+
+const getFinishReason = (data: GeminiResponse): string => {
+  return data?.candidates?.[0]?.finishReason || "";
 };
 
 const isLowQualityReply = (question: string, reply: string): boolean => {
@@ -54,11 +59,15 @@ const isLowQualityReply = (question: string, reply: string): boolean => {
   return looksLikeEcho || endsAbruptly;
 };
 
+const isTruncatedReply = (data: GeminiResponse, reply: string): boolean => {
+  return getFinishReason(data) === "MAX_TOKENS" || isLowQualityReply("", reply);
+};
+
 const callGemini = async (
   apiKey: string,
   model: string,
   prompt: string,
-  maxOutputTokens = 320
+  maxOutputTokens = 768
 ) => {
   const response = await fetch(
     `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`,
@@ -124,7 +133,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const firstTry = await callGemini(apiKey, model, chatInput, 320);
+    const firstTry = await callGemini(apiKey, model, chatInput, 768);
 
     if (!firstTry.response.ok) {
       const message =
@@ -134,14 +143,14 @@ export async function POST(req: NextRequest) {
 
     let reply = extractReply(firstTry.data);
 
-    if (isLowQualityReply(chatInput, reply)) {
+    if (isTruncatedReply(firstTry.data, reply) || isLowQualityReply(chatInput, reply)) {
       const retryPrompt = [
-        "Câu trả lời trước chưa đầy đủ hoặc bị cụt.",
-        "Hãy trả lời lại trực tiếp, đầy đủ ý chính và ngắn gọn.",
+        "Câu trả lời trước chưa đầy đủ hoặc bị cắt ngang.",
+        "Hãy tiếp tục hoặc trả lời lại đầy đủ, giữ nguyên ý chính và chỉ ngắn gọn vừa đủ.",
         `Câu hỏi: ${chatInput}`,
       ].join("\n");
 
-      const secondTry = await callGemini(apiKey, model, retryPrompt, 360);
+      const secondTry = await callGemini(apiKey, model, retryPrompt, 1024);
       if (secondTry.response.ok) {
         const refinedReply = extractReply(secondTry.data);
         if (refinedReply) {

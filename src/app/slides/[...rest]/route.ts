@@ -1,7 +1,11 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
-export function GET(_req: Request, { params }: { params: { rest: string[] } }) {
-  const path = params.rest?.join("/") || "";
+export async function GET(
+  _req: NextRequest,
+  { params }: { params: Promise<{ rest: string[] }> }
+) {
+  const { rest } = await params;
+  const path = rest?.join("/") || "";
 
   // Redirect known missing path to actual PDF in public/slide
   if (path === "presentation.pdf") {
