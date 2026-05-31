@@ -19,12 +19,14 @@ export default function SlidesPage() {
         </Link>
 
         <a
-          href="/slides/presentation.pdf"
+          href="/slide/thuyettrinh.pdf"
           download
-          className="inline-flex items-center gap-2 text-sm font-semibold px-4 py-2 rounded-full bg-red-700 hover:bg-red-600 active:scale-95 text-white shadow-lg shadow-red-900/40 transition-all duration-200"
+          className="inline-flex items-center gap-2 text-sm font-medium text-white/60 hover:text-white transition-colors duration-200"
         >
-          <Download className="w-3.5 h-3.5" />
-          <span>Tải về PDF</span>
+          <span className="inline-flex items-center justify-center w-8 h-8 rounded-full border border-white/15 bg-white/5 hover:bg-white/10 hover:border-white/30 transition-all duration-200">
+            <Download className="w-3.5 h-3.5" />
+          </span>
+          <span>Tải PDF</span>
         </a>
       </header>
 
